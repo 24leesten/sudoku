@@ -1,9 +1,13 @@
 package sudoku;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.List;
 
 import com.opencsv.CSVReader;
@@ -17,6 +21,10 @@ import com.opencsv.CSVReader;
  *
  */
 public class Sudoku {
+  
+  private static String outFile = "OUTPUT.txt";
+  private static String jsonStart = "{\"type\":\"html\",\"html\":\"";
+  private static String jsonEnd = "\",\"required_files\":\"sudoku.css\"}";
 
   public static void main(String[] args) {
     
@@ -39,7 +47,7 @@ public class Sudoku {
       reader.close();
     } catch (IOException e) {
       if (sudoku==null)
-        System.out.println("<h1>Your Sudoku was not read in properly.</h1>");
+        System.out.println(" <link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\"><h1>Your Sudoku was not read in properly.</h1>");
       e.printStackTrace();
       return;
     }
@@ -61,15 +69,36 @@ public class Sudoku {
     // sendCSS();
     
     // show the puzzle being solved
-    System.out.println("<h1>Input</h1>");
-    System.out.println(generateHTML(grid));
+    List<String> lines = Arrays.asList(jsonStart + "<h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
+    Path file = Paths.get(outFile);
+    try {
+      Files.write(file, lines, Charset.forName("UTF-8"));
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     // try to solve the puzzle
     if (solve(grid) != null){
-      System.out.println("<h1>Solved</h1>");
-      System.out.println(generateHTML(grid));
+      lines = Arrays.asList(jsonStart + "<h1>Solved</h1>" +  generateHTML(grid) + "\"}");
+      file = Paths.get(outFile);
+      try {
+        Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
-    else 
-      System.out.println("<h1>No Solution</h1>");
+    else{
+      lines = Arrays.asList(jsonStart + "<h1>No Solution</h1>" + "\"}");
+      file = Paths.get(outFile);
+      try {
+        Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
   }
   
   
@@ -213,7 +242,7 @@ public class Sudoku {
   private static String generateHTML(int[][] grid){
     String html = "";
     
-    String tableHeader = "<table id=\"sudoku_grid\" style=\"border-collapse: collapse;\">";
+    String tableHeader = "<table id=\\\"sudoku_grid\\\" style=\\\"border-collapse: collapse;\\\">";
     String endTableHeader = "</table>";
     
     html += tableHeader;
@@ -258,14 +287,14 @@ public class Sudoku {
   private static String generateCell(int value){
     String html = "";
     
-    String tableData = "<td class=\"sudoku_cell\">";
+    String tableData = "<td class=\\\"sudoku_cell\\\">";
     String endTableData = "</td>";
-    String input = "<input type=\"text\" maxlength=\"1\" value=\"";
+    String input = "<input type=\\\"text\\\" maxlength=\\\"1\\\" value=\\\" readonly";
     String cellVal = "";
     if (value != 0)
       cellVal = Integer.toString(value);
     
-    String endInput = "\">";
+    String endInput = "\\\">";
     html += tableData + input + cellVal + endInput + endTableData;
     
     return html;
