@@ -9,7 +9,7 @@
 
     border: 3px solid #000000;
 }
-.sudoku_cell input {
+.sudoku_cell .cell {
     display: inline-block;
     float: left;
 

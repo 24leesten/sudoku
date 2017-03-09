@@ -288,12 +288,14 @@ public class Sudoku {
     String html = "";
     
     String tableData = "<td class=\\\"sudoku_cell\\\">";
+    String cellHTML = "<div class=\\\"cell\\\">";
+    String endCellHTML = "</div>";
     String endTableData = "</td>";
     String cellVal = "";
     if (value != 0)
       cellVal = Integer.toString(value);
     
-    html += tableData + cellVal + endTableData;
+    html += tableData + cellHTML + cellVal + endCellHTML + endTableData;
     
     return html;
   }
