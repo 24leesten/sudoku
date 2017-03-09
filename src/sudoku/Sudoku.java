@@ -47,7 +47,7 @@ public class Sudoku {
       reader.close();
     } catch (IOException e) {
       if (sudoku==null)
-        System.out.println(" <link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\"><h1>Your Sudoku was not read in properly.</h1>");
+        System.out.println("<h1>Your Sudoku was not read in properly.</h1>");
       e.printStackTrace();
       return;
     }
@@ -69,7 +69,7 @@ public class Sudoku {
     // sendCSS();
     
     // show the puzzle being solved
-    List<String> lines = Arrays.asList("<link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\">" + jsonStart + "<h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
+    List<String> lines = Arrays.asList(jsonStart + "<link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\"><h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
     Path file = Paths.get(outFile);
     try {
       Files.write(file, lines, Charset.forName("UTF-8"));
