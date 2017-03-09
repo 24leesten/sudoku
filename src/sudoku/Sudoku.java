@@ -69,7 +69,7 @@ public class Sudoku {
     // sendCSS();
     
     // show the puzzle being solved
-    List<String> lines = Arrays.asList(jsonStart + "<h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
+    List<String> lines = Arrays.asList("<link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\">" + jsonStart + "<h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
     Path file = Paths.get(outFile);
     try {
       Files.write(file, lines, Charset.forName("UTF-8"));
@@ -289,13 +289,11 @@ public class Sudoku {
     
     String tableData = "<td class=\\\"sudoku_cell\\\">";
     String endTableData = "</td>";
-    String input = "<input type=\\\"text\\\" maxlength=\\\"1\\\" value=\\\" readonly";
     String cellVal = "";
     if (value != 0)
       cellVal = Integer.toString(value);
     
-    String endInput = "\\\">";
-    html += tableData + input + cellVal + endInput + endTableData;
+    html += tableData + cellVal + endTableData;
     
     return html;
   }
