@@ -24,7 +24,7 @@ public class Sudoku {
   
   private static String outFile = "OUTPUT.txt";
   private static String jsonStart = "{\"type\":\"html\",\"html\":\"";
-  private static String jsonEnd = "\",\"required_files\":\"sudoku.css\"}";
+  private static String jsonEnd = "\",\"required_files\":[\"sudoku.css\"]}";
 
   public static void main(String[] args) {
     
@@ -69,7 +69,7 @@ public class Sudoku {
     // sendCSS();
     
     // show the puzzle being solved
-    List<String> lines = Arrays.asList(jsonStart + "<link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\"><h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":\"sudoku.css\"}");
+    List<String> lines = Arrays.asList(jsonStart + "<link rel=\\\"stylesheet\\\" href=\\\"sudoku.css\\\"><h1>Input</h1>" +  generateHTML(grid) + "\",\"required_files\":[\"sudoku.css\"]}");
     Path file = Paths.get(outFile);
     try {
       Files.write(file, lines, Charset.forName("UTF-8"));
